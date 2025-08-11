@@ -17,15 +17,49 @@ class StationController extends Controller
         ]);
     }
 
-    public function store()
+    public function update(Request $request)
     {
-        $data = request()->validate([
+        $data = $request()->validate([
+            'station_id' => 'required|integer|exists:stations,id',
             'name' => 'required|string|max:150',
             'full_address' => 'required|string|max:200',
             'district' => 'required|string|max:150',
             'lat' => 'required|decimal:-999.999999999,999.999999999',
             'lng' => 'required|decimal:-999.999999999,999.999999999',
         ]);
+        if ($request->hasErrors()) {
+            return redirect()->back()->withErrors($request->errors());
+        }
+
+        //validate station exists
+        $station = Station::find($data['station_id']);
+        if(!$station){
+            return redirect()->back()->withErrors(['station_id' => 'The selected station does not exist.']);
+        }
+
+        // update station
+        $station->name = trim($data['name']);
+        $station->full_address = trim($data['full_address']);
+        $station->district = trim($data['district']);
+        $station->lat = $data['lat'];
+        $station->lng = $data['lng'];
+        $station->save();
+
+        return redirect()->route('stations')->with('success', 'Station created successfully.');
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request()->validate([
+            'name' => 'required|string|max:150',
+            'full_address' => 'required|string|max:200',
+            'district' => 'required|string|max:150',
+            'lat' => 'required|decimal:-999.999999999,999.999999999',
+            'lng' => 'required|decimal:-999.999999999,999.999999999',
+        ]);
+        if ($request->hasErrors()) {
+            return redirect()->back()->withErrors($request->errors());
+        }
 
         $newStation = new Station();
         $newStation->name = trim($data['name']);
@@ -37,5 +71,28 @@ class StationController extends Controller
         $newStation->save();
 
         return redirect()->route('stations')->with('success', 'Station created successfully.');
+    }
+
+    public function deactivate(Request $request)
+    {
+        // validate request and send back errors if any
+        $request->validate([
+            'station_id' => 'required|integer|exists:stations,id',
+        ]);
+        if ($request->hasErrors()) {
+            return redirect()->back()->withErrors($request->errors());
+        }
+
+        // validate station exists
+        $station = Station::find($request->station_id);
+        if(!$station){
+            return redirect()->back()->withErrors(['station_id' => 'The selected station does not exist.']);
+        }
+
+        // deactivate station
+        $station->status = 0;
+        $station->save();
+
+        return redirect()->route('stations')->with('success', 'Station deactivated successfully.');
     }
 }

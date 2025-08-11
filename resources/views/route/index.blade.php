@@ -65,9 +65,9 @@
                                     </button>
                                 </td>
                                 <td class="align-content-center">
-                                    <button class="btn btn-outline-primary">
+                                    <a href="{{ route("routes.edit", ["route_id"=>$route->id]) }}" class="btn btn-outline-primary">
                                         <i class="fa-solid fa-pencil"></i>
-                                    </button>
+                                    </a>
                                     <button class="btn btn-outline-danger">
                                         <i class="fa-solid fa-trash"></i>
                                     </button>

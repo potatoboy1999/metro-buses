@@ -24,4 +24,16 @@ class Route extends Model
         return $this->hasMany(RouteStop::class, "route_id", "id");
     }
 
+    public function stations()
+    {
+        return $this->hasManyThrough(
+            Station::class,
+            RouteStop::class,
+            'route_id', // Foreign key on RouteStop table
+            'id', // Foreign key on Station table
+            'id', // Local key on Route table
+            'station_id' // Local key on RouteStop table
+        );
+    }
+
 }
