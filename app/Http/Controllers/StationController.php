@@ -19,7 +19,7 @@ class StationController extends Controller
 
     public function update(Request $request)
     {
-        $data = $request()->validate([
+        $data = $request->validate([
             'station_id' => 'required|integer|exists:stations,id',
             'name' => 'required|string|max:150',
             'full_address' => 'required|string|max:200',
@@ -27,9 +27,6 @@ class StationController extends Controller
             'lat' => 'required|decimal:-999.999999999,999.999999999',
             'lng' => 'required|decimal:-999.999999999,999.999999999',
         ]);
-        if ($request->hasErrors()) {
-            return redirect()->back()->withErrors($request->errors());
-        }
 
         //validate station exists
         $station = Station::find($data['station_id']);
@@ -50,16 +47,13 @@ class StationController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request()->validate([
+        $data = $request->validate([
             'name' => 'required|string|max:150',
             'full_address' => 'required|string|max:200',
             'district' => 'required|string|max:150',
             'lat' => 'required|decimal:-999.999999999,999.999999999',
             'lng' => 'required|decimal:-999.999999999,999.999999999',
         ]);
-        if ($request->hasErrors()) {
-            return redirect()->back()->withErrors($request->errors());
-        }
 
         $newStation = new Station();
         $newStation->name = trim($data['name']);
@@ -79,9 +73,6 @@ class StationController extends Controller
         $request->validate([
             'station_id' => 'required|integer|exists:stations,id',
         ]);
-        if ($request->hasErrors()) {
-            return redirect()->back()->withErrors($request->errors());
-        }
 
         // validate station exists
         $station = Station::find($request->station_id);

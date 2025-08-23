@@ -29,15 +29,12 @@ class BusController extends Controller
 
     public function update(Request $request)
     {
-        $data = $request()->validate([
+        $data = $request->validate([
             'bus_id' => 'required|integer|exists:buses,id',
             'code_name' => 'required|string|max:10',
             'full_name' => 'required|string|max:150',
             'express' => 'required|string',
         ]);
-        if ($request->hasErrors()) {
-            return redirect()->back()->withErrors($request->errors());
-        }
 
         // validate bus exists
         $bus = Bus::find($data['bus_id']);
@@ -56,14 +53,11 @@ class BusController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request()->validate([
+        $data = $request->validate([
             'code_name' => 'required|string|max:10',
             'full_name' => 'required|string|max:150',
             'express' => 'required|string',
         ]);
-        if ($request->hasErrors()) {
-            return redirect()->back()->withErrors($request->errors());
-        }
 
         $newBus = new Bus();
         $newBus->code_name = trim(strtoupper($data['code_name']));
@@ -80,9 +74,6 @@ class BusController extends Controller
         $request->validate([
             'bus_id' => 'required|integer|exists:buses,id',
         ]);
-        if ($request->hasErrors()) {
-            return redirect()->back()->withErrors($request->errors());
-        }
 
         // validate bus exists
         $bus = Bus::find($request->bus_id);

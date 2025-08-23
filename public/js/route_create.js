@@ -3,8 +3,7 @@ $(window).ready(function () {
 
     var total_stops = 0;
 
-    $("#add-stop").on("click", function (e) {
-        e.preventDefault();
+    function addStationItem(){
         var stationId = $("#route_stops").val();
         var stationName = $("#route_stops option:selected").text();
 
@@ -14,8 +13,9 @@ $(window).ready(function () {
         }
         console.log("Adding station:", stationId, stationName);
 
-        // hide the select dropdown option
-        $("#stop-" + stationId).hide();
+        // disable the select dropdown option
+        //$("#stop-" + stationId).hide();
+        $("#stop-" + stationId).prop("disabled", true);
 
         var stopsListContainer = $("#stops-list-container");
         var newStopItem = $(`
@@ -45,6 +45,18 @@ $(window).ready(function () {
         $("#route_stops").val("");
         $("#route_stops option:first").prop("selected", true);
         $("#no-stops").hide();
+    }
+
+    $("#route_stops").on("change", function(){
+        console.log("Station selected:", $(this).val());
+        if ($(this).val() !== "") {
+            addStationItem();
+        }
+        $("#route_stops").val("");
+    });
+
+    $("#add-stop").on("click", function (e) {
+        e.preventDefault();
     });
 
     //remove stop item
@@ -54,8 +66,9 @@ $(window).ready(function () {
         var stopId = $(this).data("id");
         console.log("Removing stop:", stopId);
 
-        // Show the select dropdown option again
-        $("#stop-" + stopId).show();
+        // Enable the select dropdown option again
+        //$("#stop-" + stopId).show();
+        $("#stop-" + stopId).prop("disabled", false);
 
         stopItem.remove();
         total_stops--;

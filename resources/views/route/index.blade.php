@@ -1,8 +1,15 @@
 @extends('template')
 
-@section('title', 'Buses')
+@section('title', 'Routes')
 
 @section('content')
+
+@php
+    function formatTime($time) {
+        return date('h:i A', strtotime($time));
+    }
+@endphp
+
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
@@ -40,23 +47,37 @@
                         </thead>
                         <tbody>
                             @foreach ($routes as $route)
+                            <tr>
                                 <td class="align-content-center">
                                     <p class="m-0">{{$route->bus->full_name}}</p>
                                 </td>
                                 <td class="align-content-center">
-                                    <p class="m-0">{{ $route->orientation == 1 ? 'South to North' : 'North to South' }}</p>
+                                    <p class="m-0">
+                                        @if($route->orientation == 1)
+                                            <i class="fa-solid fa-arrow-up arrow-sn"></i> South to North
+                                        @else
+                                            <i class="fa-solid fa-arrow-down arrow-ns"></i> North to South
+                                        @endif
+                                    </p>
                                 </td>
                                 <td class="align-content-center">
-                                    <p class="m-0">{{$route->start}}</p>
+                                    <p class="m-0">{{formatTime($route->start)}}</p>
                                 </td>
                                 <td class="align-content-center">
-                                    <p class="m-0">{{$route->end}}</p>
+                                    <p class="m-0">{{formatTime($route->end)}}</p>
                                 </td>
                                 <td class="align-content-center">
                                     <div class="d-flex flex-wrap gap-1">
-                                        @foreach ((explode(",", $route->avail_days)) as $day)
-                                            <p class="m-0 d-inline p-2 fs-7 bg-light rounded">{{ $days[$day] }}</p>
+                                        @foreach ($days as $k => $day)
+                                            @php
+                                                $style = "text-secondary";
+                                                if (str_contains($route->avail_days, $k)) {
+                                                    $style = "bg-success text-white";
+                                                }
+                                            @endphp
+                                            <p class="m-0 d-inline p-2 fs-7 border {{ $style }} rounded">{{ $day }}</p>
                                         @endforeach
+
                                     </div>
                                 </td>
                                 <td class="align-content-center">
@@ -72,6 +93,7 @@
                                         <i class="fa-solid fa-trash"></i>
                                     </button>
                                 </td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>

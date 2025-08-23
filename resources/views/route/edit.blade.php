@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="mt-2">
-        <form id="createRouteForm" action="{{ route('routes.store') }}" method="POST">
+        <form id="createRouteForm" action="{{ route('routes.update') }}" method="POST">
             @csrf
             <input type="hidden" name="route_id" value="{{ $route->id }}" />
             <div class="row">
@@ -64,7 +64,9 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="route_start" class="form-label">Start Time</label>
-                                        <select class="form-select border-primary" id="route_start" name="route_start">
+                                        <input type="time" class="form-control border-primary" id="route_start"
+                                            name="route_start" value="{{ substr($route->start, 0, 5) }}">
+                                        {{-- <select class="form-select border-primary" id="route_start" name="route_start">
                                             @for ($hour = 0; $hour < 24; $hour++)
                                                 @for ($minute = 0; $minute < 60; $minute += 15)
                                                     @php
@@ -76,12 +78,14 @@
                                                     </option>
                                                 @endfor
                                             @endfor
-                                        </select>
+                                        </select> --}}
 
                                     </div>
                                     <div class="mb-3">
                                         <label for="route_end" class="form-label">End Time</label>
-                                        <select class="form-select border-primary" id="route_end" name="route_end">
+                                        <input type="time" class="form-control border-primary" id="route_end"
+                                            name="route_end" value="{{ substr($route->end, 0, 5) }}">
+                                        {{-- <select class="form-select border-primary" id="route_end" name="route_end">
                                             @for ($hour = 0; $hour < 24; $hour++)
                                                 @for ($minute = 0; $minute < 60; $minute += 15)
                                                     @php
@@ -93,7 +97,7 @@
                                                     </option>
                                                 @endfor
                                             @endfor
-                                        </select>
+                                        </select> --}}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -160,22 +164,21 @@
                             @endphp
                             <h3 class="">Route Stops</h3>
                             <div class="d-flex flex-row justify-content-between">
-                                <div class="flex-auto">
+                                {{-- <div class="flex-auto">
                                     <button id="add-stop" class="btn btn-primary">Add <i
                                             class="fa-solid fa-plus"></i></button>
                                 </div>
-                                <div class="flex-grow-1 ms-2">
+                                <div class="flex-grow-1 ms-2"> --}}
                                     {{-- <select class="form-select border-primary" id="route_stops" name="route_stops[]"> --}}
                                     <select class="form-select border-primary" id="route_stops">
                                         <option value="" selected disabled>Select a Stop</option>
                                         @foreach ($stations as $station)
-                                            <option id="stop-{{ $station->id }}" value="{{ $station->id }}"
-                                                style="{{ in_array($station->id, $selectedStations) ? 'display:none' : '' }}">
+                                            <option id="stop-{{ $station->id }}" value="{{ $station->id }}" {{ in_array($station->id, $selectedStations) ? 'disabled' : '' }}>
                                                 {{ $station->name }}
                                             </option>
                                         @endforeach
                                     </select>
-                                </div>
+                                {{-- </div> --}}
                             </div>
                             <div id="stops-list-container" class="bg-white rounded border border-1 border-primary mt-2">
 

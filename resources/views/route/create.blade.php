@@ -59,28 +59,13 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="route_start" class="form-label">Start Time</label>
-                                        <select class="form-select border-primary" id="route_start" name="route_start">
-                                            @for ($hour = 0; $hour < 24; $hour++)
-                                                @for ($minute = 0; $minute < 60; $minute += 15)
-                                                    <option value="{{ sprintf('%02d:%02d', $hour, $minute) }}">
-                                                        {{ sprintf('%02d:%02d', $hour, $minute) }}
-                                                    </option>
-                                                @endfor
-                                            @endfor
-                                        </select>
-
+                                        <input type="time" class="form-control border-primary" id="route_start"
+                                            name="route_start">
                                     </div>
                                     <div class="mb-3">
                                         <label for="route_end" class="form-label">End Time</label>
-                                        <select class="form-select border-primary" id="route_end" name="route_end">
-                                            @for ($hour = 0; $hour < 24; $hour++)
-                                                @for ($minute = 0; $minute < 60; $minute += 15)
-                                                    <option value="{{ sprintf('%02d:%02d', $hour, $minute) }}">
-                                                        {{ sprintf('%02d:%02d', $hour, $minute) }}
-                                                    </option>
-                                                @endfor
-                                            @endfor
-                                        </select>
+                                        <input type="time" class="form-control border-primary" id="route_end"
+                                            name="route_end">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -134,19 +119,18 @@
                         <div class="card-body">
                             <h3 class="">Route Stops</h3>
                             <div class="d-flex flex-row justify-content-between">
-                                <div class="flex-auto">
+                                {{-- <div class="flex-auto">
                                     <button id="add-stop" class="btn btn-primary">Add <i
                                             class="fa-solid fa-plus"></i></button>
-                                </div>
-                                <div class="flex-grow-1 ms-2">
-                                    {{-- <select class="form-select border-primary" id="route_stops" name="route_stops[]"> --}}
+                                </div> --}}
+                                {{-- <div class="flex-grow-1 ms-2"> --}}
                                     <select class="form-select border-primary" id="route_stops">
                                         <option value="" selected disabled>Select a Stop</option>
                                         @foreach ($stations as $station)
                                             <option id="stop-{{ $station->id }}" value="{{ $station->id }}">{{ $station->name }}</option>
                                         @endforeach
                                     </select>
-                                </div>
+                                {{-- </div> --}}
                             </div>
                             <div id="stops-list-container" class="bg-white rounded border border-1 border-primary mt-2">
                                 <p id="no-stops" class="p-3 m-0 text-secondary">No stops added yet</p>

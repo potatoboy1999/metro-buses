@@ -24,6 +24,12 @@ body {
 .text-light {
     color: #d1d4db !important;
 }
+.arrow-sn{
+    color: #113383 !important;
+}
+.arrow-ns{
+    color: #027e32 !important;
+}
 
 .button-card{
     cursor: pointer;
@@ -48,4 +54,8 @@ body {
 
 .stop-item:hover {
     background-color: #f3f3f3;
+}
+
+#route_stops option:disabled {
+    background-color: #ccc;
 }

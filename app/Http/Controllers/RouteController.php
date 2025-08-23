@@ -64,9 +64,6 @@ class RouteController extends Controller
             'route_days' => 'required|array',
             'route_stops' => 'required|array',
         ]);
-        if ($request->hasErrors()) {
-            return redirect()->back()->withErrors($request->errors());
-        }
 
         // validate bus exists
         $bus = Bus::find($request->route_bus);
@@ -129,9 +126,6 @@ class RouteController extends Controller
             'route_days' => 'required|array',
             'route_stops' => 'required|array',
         ]);
-        if ($request->hasErrors()) {
-            return redirect()->back()->withErrors($request->errors());
-        }
 
         // validate bus exists
         $bus = Bus::find($request->route_bus);
@@ -181,9 +175,6 @@ class RouteController extends Controller
         $request->validate([
             'route_id' => 'required|integer|exists:routes,id',
         ]);
-        if ($request->hasErrors()) {
-            return redirect()->back()->withErrors($request->errors());
-        }
 
         // validate route exists
         $route = Route::find($request->bus_id);
