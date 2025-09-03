@@ -12,10 +12,12 @@ class BusController extends Controller
     {
         $regulars = Bus::where('status', 1)
         ->where('express', 0)
+        ->orderby('code_name','asc')
         ->get();
 
         $express = Bus::where('status', 1)
         ->where('express', 1)
+        ->orderby('code_name','asc')
         ->get();
 
         return view('bus.index', [
@@ -48,7 +50,7 @@ class BusController extends Controller
         $bus->express = ($data['express'] === 'express' ? 1 : 0);
         $bus->save();
 
-        return redirect()->route('buses')->with('success', 'Bus created successfully.');
+        return redirect()->route('buses')->with('success', 'Bus updated successfully.');
     }
 
     public function store(Request $request)

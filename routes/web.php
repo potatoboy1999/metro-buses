@@ -23,6 +23,7 @@ Route::get('/', HomeController::class . '@index')->name('home');
 Route::group(['prefix' => 'buses'], function () {
     Route::get('/', [BusController::class, 'index'])->name('buses');
     Route::post('/store', [BusController::class, 'store'])->name('buses.store');
+    Route::post('/update', [BusController::class, 'update'])->name('buses.update');
 });
 // stations
 Route::group(['prefix' => 'stations'], function () {
@@ -37,4 +38,6 @@ Route::group(['prefix' => 'routes'], function () {
     Route::get('/edit/{route_id}', [RouteController::class, 'edit'])->name('routes.edit');
     Route::post('/store', [RouteController::class, 'store'])->name('routes.store');
     Route::post('/update', [RouteController::class, 'update'])->name('routes.update');
+    Route::post('/delete', [RouteController::class, 'deactivate'])->name('routes.delete');
+    Route::post('/get-stops', [RouteController::class, 'getRouteStops'])->name('routes.getStops');
 });

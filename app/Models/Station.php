@@ -20,10 +20,15 @@ class Station extends Model
         'lng',
     ];
 
-    protected $hidden = [];
-
     public function stops()
     {
         return $this->hasMany(RouteStop::class, "station_id", "id");
+    }
+
+    public function routes()
+    {
+        return $this->belongsToMany(Route::class, 'route_stops', 'station_id', 'route_id')
+                    ->withPivot('order')
+                    ->orderByPivot('order', 'asc');
     }
 }

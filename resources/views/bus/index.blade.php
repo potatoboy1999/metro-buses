@@ -46,6 +46,44 @@
         </div>
     </div>
 
+    <div class="modal fade" id="editBusModal" tabindex="-1" aria-labelledby="editBusModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="editBusModalLabel">Edit Bus: <span id="editBusName"></span></h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editBusForm" action="{{ route('buses.update') }}" method="POST" autocomplete="off">
+                        @csrf
+                        <input type="hidden" name="bus_id" id="editBusId" value="">
+                        <div class="mb-3">
+                            <label for="editBusCodeName" class="form-label">Bus Code Name</label>
+                            <input name="code_name" type="text" class="form-control" id="editBusCodeName" maxlength="10"
+                                placeholder="Enter bus code name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editBusFullName" class="form-label">Full Name</label>
+                            <input name="full_name" type="text" class="form-control" id="editBusFullName" maxlength="150"
+                                placeholder="Enter bus full name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editBusType" class="form-label">Bus Type</label>
+                            <select name="express" class="form-select" id="editBusType">
+                                <option value="regular">Regular</option>
+                                <option value="express">Express</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" form="newBusForm">Save Bus</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="card">
         <div class="card-body bg-primary bg-light">
             <div class="d-flex justify-content-between align-items-center">
@@ -64,7 +102,7 @@
                     <p class="m-0">No Regular Buses available.</p>
                 @else
                     @foreach ($buses['regulars'] as $bus)
-                        <div class="button-card card h-auto d-inline-block border-primary border-2">
+                        <div class="button-card m-1 card h-auto d-inline-block border-primary border-2">
                             <div class="card-body">
                                 <i class="fa-solid fa-bus"></i> {{ $bus->code_name }}
                             </div>
@@ -82,7 +120,7 @@
                     <p class="m-0">No Express Buses available.</p>
                 @else
                     @foreach ($buses['express'] as $bus)
-                        <div class="button-card card h-auto d-inline-block border-primary border-2">
+                        <div class="button-card m-1 card h-auto d-inline-block border-primary border-2">
                             <div class="card-body">
                                 <i class="fa-solid fa-bus"></i> {{ $bus->code_name }}
                             </div>

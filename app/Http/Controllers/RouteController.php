@@ -112,7 +112,7 @@ class RouteController extends Controller
             $stop->save();
             $order++;
         }
-        return redirect()->route('routes')->with('success', 'Route created successfully.');
+        return redirect()->route('routes')->with('success', 'Route updated successfully.');
     }
 
     public function store(Request $request)
@@ -177,15 +177,32 @@ class RouteController extends Controller
         ]);
 
         // validate route exists
-        $route = Route::find($request->bus_id);
+        $route = Route::find($request->route_id);
         if(!$route){
-            return redirect()->back()->withErrors(['route_id' => 'The selected route does not exist.']);
+            return ["success" => false, "message" => "The selected route does not exist."];
         }
 
         // deactivate route
         $route->status = 0;
         $route->save();
 
-        return redirect()->route('routes')->with('success', 'Route deactivated successfully.');
+        // deactivate route stops
+        RouteStop::where('route_id', $route->id)->update(['status' => 0]);
+
+        return ["success" => true, "message" => "Route and stops deactivated successfully."];
+    }
+
+    public function getRouteStops(Request $request){
+        $request->validate([
+            'route_id' => 'required|integer|exists:routes,id',
+        ]);
+
+        $route = Route::find($request->route_id);
+        if(!$route){
+            return ["stops" => []];
+        }
+
+        $stops = $route->stations()->get();
+        return ["stops" => $stops];
     }
 }

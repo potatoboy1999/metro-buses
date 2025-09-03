@@ -26,6 +26,15 @@ class Route extends Model
 
     public function stations()
     {
+        return $this->belongsToMany(Station::class, 'route_stops', 'route_id', 'station_id')
+                    ->where('stations.status', 1)
+                    ->withPivot('order')
+                    ->orderByPivot('order', 'asc');
+    }
+
+    /*
+    public function stations()
+    {
         return $this->hasManyThrough(
             Station::class,
             RouteStop::class,
@@ -34,6 +43,6 @@ class Route extends Model
             'id', // Local key on Route table
             'station_id' // Local key on RouteStop table
         );
-    }
+    }*/
 
 }
