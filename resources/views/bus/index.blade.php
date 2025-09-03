@@ -54,6 +54,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div class="loading text-center my-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
                     <form id="editBusForm" action="{{ route('buses.update') }}" method="POST" autocomplete="off">
                         @csrf
                         <input type="hidden" name="bus_id" id="editBusId" value="">
@@ -78,7 +83,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" form="newBusForm">Save Bus</button>
+                    <button type="submit" class="btn btn-primary" form="editBusForm">Save Bus</button>
                 </div>
             </div>
         </div>
@@ -102,7 +107,7 @@
                     <p class="m-0">No Regular Buses available.</p>
                 @else
                     @foreach ($buses['regulars'] as $bus)
-                        <div class="button-card m-1 card h-auto d-inline-block border-primary border-2">
+                        <div class="button-bus button-card m-1 card h-auto d-inline-block border-primary border-2" bus="{{ $bus->id }}">
                             <div class="card-body">
                                 <i class="fa-solid fa-bus"></i> {{ $bus->code_name }}
                             </div>
@@ -120,7 +125,7 @@
                     <p class="m-0">No Express Buses available.</p>
                 @else
                     @foreach ($buses['express'] as $bus)
-                        <div class="button-card m-1 card h-auto d-inline-block border-primary border-2">
+                        <div class="button-bus button-card m-1 card h-auto d-inline-block border-primary border-2" bus="{{ $bus->id }}">
                             <div class="card-body">
                                 <i class="fa-solid fa-bus"></i> {{ $bus->code_name }}
                             </div>
@@ -141,4 +146,5 @@
             });
         });
     </script>
+    <script src="{{ asset('js/bus_index.js') }}"></script>
 @endsection

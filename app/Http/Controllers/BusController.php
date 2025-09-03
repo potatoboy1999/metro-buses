@@ -29,6 +29,21 @@ class BusController extends Controller
         ]);
     }
 
+    public function edit(Request $request)
+    {
+        $request->validate([
+            'bus_id' => 'required|integer|exists:buses,id',
+        ]);
+
+        // validate bus exists
+        $bus = Bus::find($request->bus_id);
+        if(!$bus){
+            return response()->json(['error' => 'The selected bus does not exist.'], 404);
+        }
+
+        return response()->json(['bus' => $bus], 200);
+    }
+
     public function update(Request $request)
     {
         $data = $request->validate([

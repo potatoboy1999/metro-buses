@@ -22,6 +22,7 @@ Route::get('/', HomeController::class . '@index')->name('home');
 // buses
 Route::group(['prefix' => 'buses'], function () {
     Route::get('/', [BusController::class, 'index'])->name('buses');
+    Route::post('/edit', [BusController::class, 'edit'])->name('buses.edit');
     Route::post('/store', [BusController::class, 'store'])->name('buses.store');
     Route::post('/update', [BusController::class, 'update'])->name('buses.update');
 });
