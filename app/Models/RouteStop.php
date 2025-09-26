@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RouteStop extends Pivot
 {
     //
+    use SoftDeletes;
     protected $table = 'route_stops';
     protected $primaryKey = 'id';
     public $incrementing = true;

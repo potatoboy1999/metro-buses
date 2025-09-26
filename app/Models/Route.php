@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Route extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     protected $table = 'routes';
     protected $primaryKey = 'id';
     public $incrementing = true;
@@ -27,7 +29,6 @@ class Route extends Model
     public function stations()
     {
         return $this->belongsToMany(Station::class, 'route_stops', 'route_id', 'station_id')
-                    ->where('stations.status', 1)
                     ->withPivot('order')
                     ->orderByPivot('order', 'asc');
     }

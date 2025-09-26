@@ -10,13 +10,11 @@ class BusController extends Controller
     //
     public function index()
     {
-        $regulars = Bus::where('status', 1)
-        ->where('express', 0)
+        $regulars = Bus::where('express', 0)
         ->orderby('code_name','asc')
         ->get();
 
-        $express = Bus::where('status', 1)
-        ->where('express', 1)
+        $express = Bus::where('express', 1)
         ->orderby('code_name','asc')
         ->get();
 
@@ -80,7 +78,6 @@ class BusController extends Controller
         $newBus->code_name = trim(strtoupper($data['code_name']));
         $newBus->full_name = trim($data['full_name']);
         $newBus->express = ($data['express'] === 'express' ? 1 : 0);
-        $newBus->status = 1;
         $newBus->save();
 
         return redirect()->route('buses')->with('success', 'Bus created successfully.');
@@ -98,10 +95,9 @@ class BusController extends Controller
             return redirect()->back()->withErrors(['bus_id' => 'The selected bus does not exist.']);
         }
 
-        // deactivate bus
-        $bus->status = 0;
-        $bus->save();
+        // delete bus
+        $bus->delete();
 
-        return redirect()->route('buses')->with('success', 'Bus deactivated successfully.');
+        return redirect()->route('buses')->with('success', 'Bus deleted successfully.');
     }
 }

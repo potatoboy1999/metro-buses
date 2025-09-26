@@ -10,7 +10,7 @@ class StationController extends Controller
     //
     public function index()
     {
-        $stations = Station::where('status', 1)->get();
+        $stations = Station::all();
         return view('station.index',[
             "page"=>"station",
             "stations"=>$stations
@@ -63,7 +63,6 @@ class StationController extends Controller
         $newStation->district = trim($data['district']);
         $newStation->lat = $data['lat'];
         $newStation->lng = $data['lng'];
-        $newStation->status = 1;
         $newStation->save();
 
         return redirect()->route('stations')->with('success', 'Station created successfully.');
@@ -82,10 +81,9 @@ class StationController extends Controller
             return redirect()->back()->withErrors(['station_id' => 'The selected station does not exist.']);
         }
 
-        // deactivate station
-        $station->status = 0;
-        $station->save();
+        // delete station
+        $station->delete();
 
-        return redirect()->route('stations')->with('success', 'Station deactivated successfully.');
+        return redirect()->route('stations')->with('success', 'Station deleted successfully.');
     }
 }

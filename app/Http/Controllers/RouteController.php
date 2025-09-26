@@ -14,7 +14,7 @@ class RouteController extends Controller
     public function index()
     {
         // Logic to retrieve and display routes
-        $routes = Route::where('status', 1)->get();
+        $routes = Route::all();
         // $days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
         $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         return view('route.index',[
@@ -27,8 +27,8 @@ class RouteController extends Controller
     public function create()
     {
         // Logic to retrieve and display routes
-        $stations = Station::where('status', 1)->get();
-        $buses = Bus::where('status', 1)->get();
+        $stations = Station::all();
+        $buses = Bus::all();
         return view('route.create',[
             "page" => "route",
             "stations" => $stations,
@@ -43,8 +43,8 @@ class RouteController extends Controller
             return redirect()->route('routes');
         }
         // Logic to retrieve and display routes
-        $stations = Station::where('status', 1)->get();
-        $buses = Bus::where('status', 1)->get();
+        $stations = Station::all();
+        $buses = Bus::all();
         return view('route.edit',[
             "page" => "route",
             "route" => $route,
@@ -108,7 +108,6 @@ class RouteController extends Controller
             $stop->route_id = $route->id;
             $stop->station_id = $route_stop;
             $stop->order = $order;
-            $stop->status = 1;
             $stop->save();
             $order++;
         }
@@ -148,7 +147,6 @@ class RouteController extends Controller
         $route->avail_days = $days;
         $route->start = ($request->route_start).":00";
         $route->end = ($request->route_end).":00";
-        $route->status = 1;
         $route->save();
 
         if (!$route->id) {
@@ -163,7 +161,6 @@ class RouteController extends Controller
             $stop->route_id = $route->id;
             $stop->station_id = $route_stop;
             $stop->order = $order;
-            $stop->status = 1;
             $stop->save();
             $order++;
         }
@@ -183,11 +180,10 @@ class RouteController extends Controller
         }
 
         // deactivate route
-        $route->status = 0;
-        $route->save();
+        $route->delete();
 
-        // deactivate route stops
-        RouteStop::where('route_id', $route->id)->update(['status' => 0]);
+        // delete route stops
+        RouteStop::where('route_id', $route->id)->delete();
 
         return ["success" => true, "message" => "Route and stops deactivated successfully."];
     }
