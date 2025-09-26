@@ -30,24 +30,35 @@
                             <input name="full_address" type="text" class="form-control" id="stationAddress"
                                 maxlength="200" placeholder="Enter Station address" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="stationDistrict" class="form-label">District</label>
-                            <input name="district" type="text" class="form-control" id="stationDistrict" maxlength="150"
-                                placeholder="Enter Station district" required>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label for="stationDistrict" class="form-label">District</label>
+                                    <input name="district" type="text" class="form-control" id="stationDistrict"
+                                        maxlength="150" placeholder="Enter Station district" required>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label for="stationOrder" class="form-label">Order</label>
+                                    <input name="order" type="number" step="1" class="form-control"
+                                        id="stationOrder" placeholder="Enter Station Order" required>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
                                     <label for="stationLat" class="form-label">Latitude</label>
-                                    <input name="lat" type="number" step=0.000000001 class="form-control" id="stationLat"
-                                        maxlength="150" placeholder="Enter Station latitude" required>
+                                    <input name="lat" type="number" step=0.000000001 class="form-control"
+                                        id="stationLat" maxlength="150" placeholder="Enter Station latitude" required>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="mb-3">
                                     <label for="stationLng" class="form-label">Longitude</label>
-                                    <input name="lng" type="number" step=0.000000001 class="form-control" id="stationLng"
-                                        maxlength="150" placeholder="Enter Station longitude" required>
+                                    <input name="lng" type="number" step=0.000000001 class="form-control"
+                                        id="stationLng" maxlength="150" placeholder="Enter Station longitude" required>
                                 </div>
                             </div>
                         </div>
@@ -69,12 +80,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editStationForm" action="{{ route('stations.update') }}" method="POST" autocomplete="off">
+                    <form id="editStationForm" action="{{ route('stations.update') }}" method="POST"
+                        autocomplete="off">
                         @csrf
                         <div class="mb-3">
                             <label for="editStationName" class="form-label">Station Name</label>
-                            <input name="name" type="text" class="form-control" id="editStationName" maxlength="150"
-                                placeholder="Enter Station name" required>
+                            <input name="name" type="text" class="form-control" id="editStationName"
+                                maxlength="150" placeholder="Enter Station name" required>
                         </div>
                         <div class="mb-3">
                             <label for="editStationAddress" class="form-label">Address</label>
@@ -83,22 +95,24 @@
                         </div>
                         <div class="mb-3">
                             <label for="editStationDistrict" class="form-label">District</label>
-                            <input name="district" type="text" class="form-control" id="editStationDistrict" maxlength="150"
-                                placeholder="Enter Station district" required>
+                            <input name="district" type="text" class="form-control" id="editStationDistrict"
+                                maxlength="150" placeholder="Enter Station district" required>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
                                     <label for="editStationLat" class="form-label">Latitude</label>
-                                    <input name="lat" type="number" step=0.000000001 class="form-control" id="editStationLat"
-                                        maxlength="150" placeholder="Enter Station latitude" required>
+                                    <input name="lat" type="number" step=0.000000001 class="form-control"
+                                        id="editStationLat" maxlength="150" placeholder="Enter Station latitude"
+                                        required>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="mb-3">
                                     <label for="editStationLng" class="form-label">Longitude</label>
-                                    <input name="lng" type="number" step=0.000000001 class="form-control" id="editStationLng"
-                                        maxlength="150" placeholder="Enter Station longitude" required>
+                                    <input name="lng" type="number" step=0.000000001 class="form-control"
+                                        id="editStationLng" maxlength="150" placeholder="Enter Station longitude"
+                                        required>
                                 </div>
                             </div>
                         </div>
@@ -116,15 +130,23 @@
         <div class="card-body bg-primary bg-light">
             <div class="d-flex justify-content-between align-items-center">
                 <h3 class="m-0"><i class="fa-solid fa-house-user"></i> Stations</h3>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newStationModal">
-                    <i class="fa-solid fa-plus"></i> Add New Station
-                </button>
+                <div>
+                    <button type="button" class="btn btn-secondary" id="btn_showStationsTable">
+                        <i class="fa-solid fa-eye"></i> Show Table
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="btn_showStationsPills" style="display:none;">
+                        <i class="fa-solid fa-eye"></i> Show Pills
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newStationModal">
+                        <i class="fa-solid fa-plus"></i> Add New Station
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="mt-4">
-        <div class="card bg-light mt-2">
+        <div class="card bg-light mt-2" id="stationsCards">
             <div class="card-body">
                 @if ($stations->isEmpty())
                     <p class="m-0">No stations available.</p>
@@ -141,6 +163,41 @@
                 @endif
             </div>
         </div>
+        <div class="card bg-light mt-2" id="stationsTable" style="display:none;">
+            <div class="card-body">
+                @if ($stations->isEmpty())
+                    <p class="m-0">No stations available.</p>
+                @else
+                    <div class="rounded bg-white p-1">
+                        <table class="table table-responsive bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Order</th>
+                                    <th>Name</th>
+                                    <th>District</th>
+                                    <th>Address</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($stations as $station)
+                                    <tr>
+                                        <td class="align-content-center">{{ $station->order }}</td>
+                                        <td class="align-content-center">{{ $station->name }}</td>
+                                        <td class="align-content-center">{{ $station->district }}</td>
+                                        <td class="align-content-center">{{ $station->full_address }}</td>
+                                        <td class="align-content-center">
+                                            <button class="btn btn-info"><i class="fa-solid fa-pencil"></i></button>
+                                            <button class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
+            </div>
+        </div>
     </div>
 
     <script>
@@ -150,6 +207,24 @@
                     event.preventDefault();
                     return false;
                 }
+            });
+
+            $("#btn_showStationsTable").on("click", function(ev){
+                // hide pills
+                $("#stationsCards").hide();
+                $("#btn_showStationsTable").hide();
+                // show table
+                $("#stationsTable").show();
+                $("#btn_showStationsPills").show();
+            });
+
+            $("#btn_showStationsPills").on("click", function(ev){
+                // hide table
+                $("#stationsTable").hide();
+                $("#btn_showStationsPills").hide();
+                // show pills
+                $("#stationsCards").show();
+                $("#btn_showStationsTable").show();
             });
         });
     </script>

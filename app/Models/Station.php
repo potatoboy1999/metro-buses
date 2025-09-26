@@ -20,6 +20,7 @@ class Station extends Model
         'distring',
         'lat',
         'lng',
+        'order'
     ];
 
     public function stops()
