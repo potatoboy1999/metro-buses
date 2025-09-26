@@ -61,6 +61,57 @@
         </div>
     </div>
 
+    <div class="modal fade" id="editStationModal" tabindex="-1" aria-labelledby="editStationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="editStationModalLabel">Edit Station</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editStationForm" action="{{ route('stations.update') }}" method="POST" autocomplete="off">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="editStationName" class="form-label">Station Name</label>
+                            <input name="name" type="text" class="form-control" id="editStationName" maxlength="150"
+                                placeholder="Enter Station name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editStationAddress" class="form-label">Address</label>
+                            <input name="full_address" type="text" class="form-control" id="editStationAddress"
+                                maxlength="200" placeholder="Enter Station address" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editStationDistrict" class="form-label">District</label>
+                            <input name="district" type="text" class="form-control" id="editStationDistrict" maxlength="150"
+                                placeholder="Enter Station district" required>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label for="editStationLat" class="form-label">Latitude</label>
+                                    <input name="lat" type="number" step=0.000000001 class="form-control" id="editStationLat"
+                                        maxlength="150" placeholder="Enter Station latitude" required>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label for="editStationLng" class="form-label">Longitude</label>
+                                    <input name="lng" type="number" step=0.000000001 class="form-control" id="editStationLng"
+                                        maxlength="150" placeholder="Enter Station longitude" required>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" form="editStationForm">Save Station</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="card">
         <div class="card-body bg-primary bg-light">
             <div class="d-flex justify-content-between align-items-center">

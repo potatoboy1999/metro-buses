@@ -31,7 +31,8 @@ class StationController extends Controller
         //validate station exists
         $station = Station::find($data['station_id']);
         if(!$station){
-            return redirect()->back()->withErrors(['station_id' => 'The selected station does not exist.']);
+            return response()->json(['error' => 'The selected station does not exist.'], 422);
+            //return redirect()->back()->withErrors(['station_id' => 'The selected station does not exist.']);
         }
 
         // update station
@@ -42,7 +43,8 @@ class StationController extends Controller
         $station->lng = $data['lng'];
         $station->save();
 
-        return redirect()->route('stations')->with('success', 'Station created successfully.');
+        return response()->json(['success' => true, 'message' => 'Station updated successfully.']);
+        //return redirect()->route('stations')->with('success', 'Station created successfully.');
     }
 
     public function store(Request $request)
